@@ -49,5 +49,6 @@
 - Menambahkan histori
 - Menambahkan limit jumlah suatu angka dalam display
 - Menambahkan . disetiap angka berjumlah ribuan
-  - Pembaruan Tema
+- Pembaruan Tema
+
 
