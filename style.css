@@ -1,0 +1,198 @@
+:root {
+    --primary-color: #0D1164;
+    --secondary-color: #640D5F;
+    --accent-color: #EA2264;
+    --highlight-color: #F78D60;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+}
+
+body {
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--dark-color);
+}
+
+/* Tampilan kalkulator */
+.calculator {
+    border-radius: 20px;
+    overflow: hidden;
+    border: none;
+    background-color: white;
+}
+
+.calculator-display {
+    background-color: var(--primary-color);
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.calculation-history {
+    min-height: 24px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.current-input {
+    word-break: break-all;
+    overflow-wrap: break-word;
+    min-height: 80px;
+    color: white;
+}
+
+/* Tombol kustom */
+.btn-custom-number {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    padding: 15px 0;
+    transition: all 0.2s;
+}
+
+.btn-custom-number:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.btn-custom-operator {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    padding: 15px 0;
+    transition: all 0.2s;
+}
+
+.btn-custom-operator:hover {
+    background-color: #530c50;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-custom-equals {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    padding: 15px 0;
+    transition: all 0.2s;
+}
+
+.btn-custom-equals:hover {
+    background-color: #d11c5a;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-custom-secondary {
+    background-color: var(--highlight-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    padding: 10px 0;
+    transition: all 0.2s;
+}
+
+.btn-custom-secondary:hover {
+    background-color: #f57a4a;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.bg-custom-primary {
+    background-color: var(--primary-color) !important;
+}
+
+/* Panel histori */
+.history-panel {
+    border-radius: 20px;
+    border: none;
+    background-color: white;
+}
+
+.history-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.history-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+.history-item:hover {
+    background-color: rgba(13, 17, 100, 0.05);
+}
+
+.history-expression {
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+.history-result {
+    font-weight: 700;
+    color: var(--primary-color);
+    text-align: right;
+}
+
+.history-time {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/* Responsif untuk perangkat mobile */
+@media (max-width: 768px) {
+    .calculator, .history-panel {
+        border-radius: 15px;
+    }
+    
+    .current-input {
+        font-size: 2rem;
+        min-height: 60px;
+    }
+    
+    .btn-custom-number, .btn-custom-operator, .btn-custom-equals {
+        padding: 12px 0;
+        font-size: 1.1rem;
+    }
+}
+
+/* Animasi */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Scrollbar kustom */
+.history-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+    background: var(--highlight-color);
+    border-radius: 10px;
+}
+
+.history-list::-webkit-scrollbar-thumb:hover {
+    background: #f57a4a;
+}

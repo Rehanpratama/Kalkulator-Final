@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator BODMAS</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS kustom -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
+</head>
+<body>
+    <div class="container my-4">
+        <header class="text-center mb-4">
+            <h1 class="display-5 fw-bold">Kalkulator BODMAS</h1>
+            <!-- <p class="text-muted">Kalkulator dengan aturan BODMAS, histori, dan format ribuan</p> -->
+        </header>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <!-- Kalkulator -->
+                <div class="calculator card shadow-lg">
+                    <!-- Display Kalkulator -->
+                    <div class="calculator-display card-header py-3">
+                        <div class="text-end">
+                            <div class="calculation-history text-muted small mb-2" id="history-preview">0</div>
+                            <div class="current-input display-5 fw-bold" id="display">0</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tombol Kalkulator -->
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <button class="btn btn-custom-secondary w-100" id="clear-history">
+                                    <i class="fas fa-trash-history"></i> Hapus Histori
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-custom-secondary w-100" id="toggle-history">
+                                    <i class="fas fa-history"></i> Lihat Histori
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-2 mb-2">
+                            <div class="col-3">
+                                <button class="btn btn-custom-operator w-100" data-action="clear">C</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-operator w-100" data-action="backspace">⌫</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-operator w-100" data-action="percent">%</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-operator w-100" data-action="divide">÷</button>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-2 mb-2">
+                            <div class="col-3">
+                                <button class="btn btn-custom-number w-100" data-number="7">7</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-number w-100" data-number="8">8</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-number w-100" data-number="9">9</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-operator w-100" data-action="multiply">×</button>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-2 mb-2">
+                            <div class="col-3">
+                                <button class="btn btn-custom-number w-100" data-number="4">4</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-number w-100" data-number="5">5</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-number w-100" data-number="6">6</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-operator w-100" data-action="subtract">−</button>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-2 mb-2">
+                            <div class="col-3">
+                                <button class="btn btn-custom-number w-100" data-number="1">1</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-number w-100" data-number="2">2</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-number w-100" data-number="3">3</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-operator w-100" data-action="add">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-2">
+                            <div class="col-3">
+                                <button class="btn btn-custom-number w-100" data-action="negate">±</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-number w-100" data-number="0">0</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-number w-100" data-number=".">.</button>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-custom-equals w-100" data-action="equals">=</button>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-2 mt-2">
+                            <div class="col-6">
+                                <button class="btn btn-custom-operator w-100" data-action="sqrt">√</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-custom-operator w-100" data-action="parentheses">( )</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="card-footer text-center text-muted small">
+                        Maksimal 15 angka | Format ribuan dengan titik
+                    </div> -->
+                </div>
+            </div>
+            
+            <!-- Panel Histori -->
+            <div class="col-md-6 col-lg-5 mt-4 mt-md-0">
+                <div class="history-panel card shadow-lg h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-history"></i> Histori Perhitungan</h5>
+                        <span class="badge bg-custom-primary" id="history-count">0</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="history-list" id="history-list">
+                            <!-- Histori akan dimuat di sini -->
+                            <div class="text-center text-muted py-5">
+                                <i class="fas fa-calculator fa-3x mb-3"></i>
+                                <p>Belum ada histori perhitungan</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="card-footer">
+                        <small>Histori akan disimpan di browser Anda</small>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        
+        <footer class="text-center mt-4">
+            <p class="text-muted">Kalkulator dengan aturan BODMAS • Dibuat dengan HTML, CSS, dan JavaScript</p>
+        </footer>
+    </div>
+
+    <!-- Modal untuk peringatan -->
+    <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title" id="warningModalLabel">Peringatan!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Anda hanya dapat memasukkan maksimal 15 angka.</p>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> Kalkulator ini membatasi input untuk menjaga keakuratan perhitungan.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-custom-primary" data-bs-dismiss="modal">Mengerti</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript kustom -->
+    <script src="script.js"></script>
+</body>
+</html>
