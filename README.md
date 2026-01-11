@@ -1,4 +1,4 @@
-﻿#🧮 Kalkulator BODMAS
+﻿# Kalkulator BODMAS
  Kalkulator BODMAS adalah project kalkulator berbasis web yang dikembangkan oleh khoirluqman07 dan Rehanpratama, kalkulator BODMAS dirancang agar mudah dipahami dan digunakan oleh semua orang, kami juga memastikan bahwa project ini memiliki tampilan yang menarik,unik namun tetap mempertahankan kesan simple sebagai ciri khas dari project kita kali ini, Project ini kami buat menggunakan bahasa pemograman HTML,CSS dan PHP
 
 #🎯 Fitur
@@ -19,6 +19,7 @@
 #👥 Kontributor
 - @khoirluqman07 - Design dan dokumentasi
 - @Rehanpratama - Sistem dan publikasi
+
 
 
 
