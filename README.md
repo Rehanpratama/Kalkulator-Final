@@ -12,7 +12,7 @@
 - Pengerjaan proyek
 
 ### 2 Desember 2025
-<img width="200" height="800" alt="Screenshot 2026-01-11 145419" src="https://github.com/user-attachments/assets/0b1a7222-8a68-40a1-8ccf-6a595b8a187d" />
+<img width="500" height="1000" alt="Screenshot 2026-01-11 145419" src="https://github.com/user-attachments/assets/0b1a7222-8a68-40a1-8ccf-6a595b8a187d" />
 
 - Kalkulator V1 selesai dibuat
 
@@ -50,5 +50,6 @@
 - Menambahkan limit jumlah suatu angka dalam display
 - Menambahkan . disetiap angka berjumlah ribuan
 - Pembaruan Tema
+
 
 
