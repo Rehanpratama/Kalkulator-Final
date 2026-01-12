@@ -1,5 +1,7 @@
 // Kalkulator dengan BODMAS
+//Kelas Utama
 class Calculator {
+//
     constructor() {
         this.display = document.getElementById('display');
         this.historyPreview = document.getElementById('history-preview');
@@ -54,42 +56,61 @@ class Calculator {
     }
     
     inputNumber(number) {
-        // Reset jika hasil sebelumnya ditampilkan
-        if (this.isResultDisplayed) {
-            this.currentInput = '';
-            this.expression = '';
-            this.isResultDisplayed = false;
-        }
-        
-        // Validasi panjang input
-        if (this.currentInput.replace(/\./g, '').length >= 15 && number !== '.') {
+    // Reset jika hasil sebelumnya ditampilkan
+    if (this.isResultDisplayed) {
+        this.currentInput = '';
+        this.expression = '';
+        this.isResultDisplayed = false;
+    }
+    
+    // Validasi: cek angka terakhir dalam ekspresi
+    const lastNumberMatch = this.expression.match(/(\d+\.?\d*)$/);
+    if (lastNumberMatch) {
+        const lastNumber = lastNumberMatch[0];
+        if (lastNumber.replace(/\./g, '').length >= 15 && number !== '.') {
             this.showWarning();
             return;
         }
-        
-        // Handle titik desimal
-        if (number === '.') {
-            if (this.currentInput.includes('.')) return;
-            if (this.currentInput === '' || this.isOperator(this.currentInput.slice(-1))) {
-                this.currentInput += '0.';
-                this.expression += '0.';
-            } else {
-                this.currentInput += '.';
-                this.expression += '.';
-            }
-        } else {
-            // Handle angka biasa
-            if (this.currentInput === '0' || this.currentInput === '') {
-                this.currentInput = number;
-                this.expression = this.expression === '0' ? number : this.expression + number;
-            } else {
-                this.currentInput += number;
-                this.expression += number;
-            }
+    }
+    
+    // Handle titik desimal
+    if (number === '.') {
+        // Cek apakah angka terakhir sudah memiliki titik
+        const lastNumberMatch = this.expression.match(/(\d+\.?\d*)$/);
+        if (lastNumberMatch && lastNumberMatch[0].includes('.')) {
+            return; // Sudah ada titik, jangan tambah lagi
         }
         
-        this.updateDisplay();
+        // Jika ekspresi kosong atau terakhir operator, mulai dengan 0.
+        if (this.expression === '' || this.isOperator(this.expression.slice(-1))) {
+            this.expression += '0.';
+            this.currentInput = '0.';
+        } else {
+            this.expression += '.';
+            // Update currentInput untuk menampilkan angka dengan titik
+            const currentNumberMatch = this.expression.match(/(\d+\.?\d*)$/);
+            this.currentInput = currentNumberMatch ? currentNumberMatch[0] : '.';
+        }
+    } else {
+        // Handle angka biasa
+        if (this.expression === '' || this.isResultDisplayed) {
+            this.expression = number;
+            this.currentInput = number;
+        } else if (this.isOperator(this.expression.slice(-1))) {
+            // Setelah operator, mulai angka baru
+            this.expression += number;
+            this.currentInput = number;
+        } else {
+            // Lanjutan angka yang ada
+            this.expression += number;
+            // Update currentInput untuk menampilkan angka lengkap
+            const currentNumberMatch = this.expression.match(/(\d+\.?\d*)$/);
+            this.currentInput = currentNumberMatch ? currentNumberMatch[0] : number;
+        }
     }
+    
+    this.updateDisplay();
+}
     
     handleAction(action) {
         switch(action) {
@@ -124,80 +145,94 @@ class Calculator {
     }
     
     inputOperator(operator) {
-        const operators = {
-            'add': '+',
-            'subtract': '−',
-            'multiply': '×',
-            'divide': '÷'
-        };
-        
-        const operatorSymbol = operators[operator];
-        
-        // Reset jika hasil sebelumnya ditampilkan
-        if (this.isResultDisplayed) {
-            this.expression = this.currentInput;
-            this.isResultDisplayed = false;
-        }
-        
-        // Tambah operator ke ekspresi
-        if (this.expression === '' || this.isOperator(this.expression.slice(-1))) {
-            // Ganti operator terakhir jika sudah ada operator
-            this.expression = this.expression.slice(0, -1) + operatorSymbol;
-        } else {
-            this.expression += operatorSymbol;
-        }
-        
-        this.currentInput = operatorSymbol;
-        this.updateDisplay();
+    const operators = {
+        'add': '+',
+        'subtract': '−',
+        'multiply': '×',
+        'divide': '÷'
+    };
+    
+    const operatorSymbol = operators[operator];
+    
+    // Reset jika hasil sebelumnya ditampilkan
+    if (this.isResultDisplayed) {
+        // Gunakan hasil sebelumnya sebagai angka pertama
+        this.expression = this.currentInput;
+        this.isResultDisplayed = false;
     }
     
-    calculate() {
-        try {
-            // Konversi simbol matematika ke format yang bisa dievaluasi
-            let evalExpression = this.expression
-                .replace(/×/g, '*')
-                .replace(/÷/g, '/')
-                .replace(/−/g, '-')
-                .replace(/√/g, 'Math.sqrt');
-            
-            // Tangani tanda kurung yang belum ditutup
-            if (this.parenthesesCount > 0) {
-                evalExpression += ')'.repeat(this.parenthesesCount);
-                this.parenthesesCount = 0;
-            }
-            
-            // Evaluasi ekspresi dengan BODMAS (urutan operasi bawaan JavaScript)
-            const result = eval(evalExpression);
-            
-            // Validasi hasil
-            if (!isFinite(result)) {
-                throw new Error('Hasil tidak terdefinisi');
-            }
-            
-            // Format hasil dengan batas 15 digit
-            let formattedResult = result.toString();
-            if (formattedResult.replace(/\./g, '').length > 15) {
-                formattedResult = result.toPrecision(12);
-            }
-            
-            // Simpan ke histori
-            this.saveToHistory(this.expression, formattedResult);
-            
-            // Update tampilan
-            this.currentInput = this.formatNumberWithCommas(formattedResult);
-            this.expression = formattedResult;
-            this.isResultDisplayed = true;
-            
-            this.updateDisplay();
-        } catch (error) {
-            this.currentInput = 'tak terdefinisi';
-            this.expression = '';
-            this.isResultDisplayed = true;
-            this.updateDisplay();
-            
-            console.error('Calculation error:', error);
-        }
+    // Jika ekspresi kosong, mulai dengan 0
+    if (this.expression === '') {
+        this.expression = '0' + operatorSymbol;
     }
+    // Jika terakhir operator, ganti operator terakhir
+    else if (this.isOperator(this.expression.slice(-1))) {
+        this.expression = this.expression.slice(0, -1) + operatorSymbol;
+    }
+    // Jika terakhir angka, tambahkan operator
+    else {
+        this.expression += operatorSymbol;
+    }
+    
+    // Untuk logika internal, simpan operator terakhir
+    this.currentInput = operatorSymbol;
+    this.updateDisplay();
+}
+    
+    calculate() {
+    try {
+        // Simpan ekspresi asli sebelum diubah untuk ditampilkan
+        const originalExpression = this.expression;
+        
+        // Konversi simbol matematika ke format yang bisa dievaluasi
+        let evalExpression = this.expression
+            .replace(/×/g, '*')
+            .replace(/÷/g, '/')
+            .replace(/−/g, '-')
+            .replace(/√/g, 'Math.sqrt');
+        
+        // Tangani tanda kurung yang belum ditutup
+        if (this.parenthesesCount > 0) {
+            evalExpression += ')'.repeat(this.parenthesesCount);
+            this.parenthesesCount = 0;
+        }
+        
+        // Evaluasi ekspresi dengan BODMAS
+        const result = eval(evalExpression);
+        
+        // Validasi hasil
+        if (!isFinite(result)) {
+            throw new Error('Hasil tidak terdefinisi');
+        }
+        
+        // Format hasil dengan batas 15 digit
+        let formattedResult = result.toString();
+        if (formattedResult.replace(/\./g, '').length > 15) {
+            formattedResult = result.toPrecision(12);
+        }
+        
+        // Simpan ke histori
+        this.saveToHistory(originalExpression, formattedResult);
+        
+        // Format ekspresi untuk ditampilkan: ekspresi = hasil
+        const formattedExpression = this.formatExpression(originalExpression);
+        const formattedFinalResult = this.formatNumberWithCommas(formattedResult);
+        
+        // Update state
+        this.expression = `${formattedExpression} = ${formattedFinalResult}`;
+        this.currentInput = formattedResult;
+        this.isResultDisplayed = true;
+        
+        this.updateDisplay();
+    } catch (error) {
+        this.currentInput = 'tak terdefinisi';
+        this.expression = 'tak terdefinisi';
+        this.isResultDisplayed = true;
+        this.updateDisplay();
+        
+        console.error('Calculation error:', error);
+    }
+}
     
     percent() {
     try {
@@ -419,12 +454,12 @@ class Calculator {
     }
     
     clear() {
-        this.currentInput = '0';
-        this.expression = '';
-        this.isResultDisplayed = false;
-        this.parenthesesCount = 0;
-        this.updateDisplay();
-    }
+    this.currentInput = '0';
+    this.expression = '';
+    this.isResultDisplayed = false;
+    this.parenthesesCount = 0;
+    this.updateDisplay();
+}
     
     backspace() {
         if (this.isResultDisplayed) {
@@ -499,22 +534,37 @@ class Calculator {
     }
     
     updateDisplay() {
-        // Format angka dengan pemisah ribuan
-        const formattedInput = this.formatNumberWithCommas(this.currentInput);
-        this.display.textContent = formattedInput;
-        
-        // Tampilkan ekspresi di pratinjau histori
-        const formattedExpression = this.formatExpression(this.expression);
-        this.historyPreview.textContent = formattedExpression || '0';
-        
-        // Batasi panjang tampilan
-        if (this.display.textContent.length > 20) {
-            this.display.style.fontSize = '1.8rem';
-        } else {
-            this.display.style.fontSize = '2.5rem';
-        }
+    // Tampilkan EKSPRESI LENGKAP di display utama
+    let displayText = this.expression;
+    
+    // Jika ekspresi kosong, tampilkan currentInput atau 0
+    if (!displayText || displayText === '') {
+        displayText = this.currentInput || '0';
     }
     
+    // Format dengan pemisah ribuan
+    const formattedText = this.formatExpression(displayText);
+    this.display.textContent = formattedText;
+    
+    // Tampilkan hasil terakhir di history preview (jika ada)
+    if (this.history.length > 0) {
+        const lastResult = this.formatNumberWithCommas(this.history[0].result);
+        this.historyPreview.textContent = `= ${lastResult}`;
+    } else {
+        this.historyPreview.textContent = '';
+    }
+    
+    // Adjust font size berdasarkan panjang teks
+    if (formattedText.length > 30) {
+        this.display.style.fontSize = '1.2rem';
+    } else if (formattedText.length > 20) {
+        this.display.style.fontSize = '1.5rem';
+    } else if (formattedText.length > 15) {
+        this.display.style.fontSize = '1.8rem';
+    } else {
+        this.display.style.fontSize = '2.5rem';
+    }
+}
     updateHistoryPanel() {
         if (this.history.length === 0) {
             this.historyList.innerHTML = `
