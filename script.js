@@ -389,12 +389,12 @@ class Calculator {
         
         this.updateDisplay();
     } catch (error) {
-        console.error('Percent error:', error);
-        this.currentInput = 'Error';
-        this.expression = '';
-        this.isResultDisplayed = true;
-        this.updateDisplay();
-    }
+    console.error('Percent error:', error);
+    this.currentInput = 'Error';
+    this.expression = 'Error';
+    this.isResultDisplayed = true;
+    this.updateDisplay();
+}
 }
     
     squareRoot() {
@@ -411,9 +411,11 @@ class Calculator {
             this.currentInput = '√(';
             this.updateDisplay();
         } catch (error) {
-            this.currentInput = 'Error';
-            this.updateDisplay();
-        }
+    this.currentInput = 'Error';
+    this.expression = 'Error';
+    this.isResultDisplayed = true;
+    this.updateDisplay();
+}
     }
     
     toggleNegate() {
